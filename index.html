@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Compatibility Calculator ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+        
+        :root {
+            --pink: #ff6b9e;
+            --red: #ff1a4a;
+            --light-pink: #ffcce0;
+            --white: #fff;
+            --shadow: rgba(255, 0, 85, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--pink), var(--red));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23ffffff10"><path d="M50 30c6-20 30-20 30-5 0 15-20 25-20 40 0-15-20-25-20-40 0-15 24-15 30 5z"/></svg>');
+            background-size: 100px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px var(--shadow);
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--red);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        h1::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--pink), var(--red));
+            margin: 10px auto;
+            border-radius: 3px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--red);
+            font-weight: 600;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--pink);
+            box-shadow: 0 0 0 3px var(--shadow);
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--pink), var(--red));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px var(--shadow);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .result {
+            margin-top: 30px;
+            display: none;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        .percentage {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--red);
+            margin: 20px 0;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message {
+            font-size: 1.5rem;
+            color: var(--red);
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background-color: var(--light-pink);
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--pink), var(--red));
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.5s ease-out;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart {
+            position: absolute;
+            opacity: 0;
+            animation: float 6s ease-in infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .percentage {
+                font-size: 3rem;
+            }
+            
+            .message {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Love Compatibility Calculator ❤️</h1>
+        
+        <div class="input-group">
+            <label for="name1">Your Name</label>
+            <input type="text" id="name1" placeholder="Enter your name">
+        </div>
+        
+        <div class="input-group">
+            <label for="name2">Partner's Name</label>
+            <input type="text" id="name2" placeholder="Enter partner's name">
+        </div>
+        
+        <button id="calculate">Calculate Compatibility</button>
+        
+        <div class="result" id="result">
+            <div class="percentage" id="percentage">0%</div>
+            <div class="message" id="message"></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hearts" id="hearts"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const calculateBtn = document.getElementById('calculate');
+            const resultDiv = document.getElementById('result');
+            const percentageDiv = document.getElementById('percentage');
+            const messageDiv = document.getElementById('message');
+            const progressBar = document.getElementById('progress-bar');
+            const heartsContainer = document.getElementById('hearts');
+            
+            // Create floating hearts
+            function createHearts() {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+            }
+            
+            // Generate hearts periodically
+            setInterval(createHearts, 300);
+            
+            calculateBtn.addEventListener('click', function() {
+                const name1 = document.getElementById('name1').value.trim();
+                const name2 = document.getElementById('name2').value.trim();
+                
+                if (!name1 || !name2) {
+                    alert('Please enter both names!');
+                    return;
+                }
+                
+                // Generate random compatibility between 50% and 100%
+                const compatibility = Math.floor(Math.random() * 51) + 50;
+                
+                // Display result with animation
+                resultDiv.style.display = 'block';
+                percentageDiv.textContent = '0%';
+                progressBar.style.width = '0';
+                
+                setTimeout(() => {
+                    percentageDiv.textContent = compatibility + '%';
+                    progressBar.style.width = compatibility + '%';
+                    
+                    // Set message based on compatibility
+                    if (compatibility >= 90) {
+                        messageDiv.textContent = 'Perfect Match! 💕';
+                    } else if (compatibility >= 75) {
+                        messageDiv.textContent = 'Great Chemistry! ❤️';
+                    } else if (compatibility >= 60) {
+                        messageDiv.textContent = 'Good Potential! 💖';
+                    } else {
+                        messageDiv.textContent = 'Needs More Love 💘';
+                    }
+                }, 100);
+                
+                // Create celebration hearts
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(createHearts, i * 100);
+                }
+            });
+        });
+    </script>
+<div id="container-9722a40df7cfcc102b5e0c1f664e5390"></div>
+</body>
+</html>
